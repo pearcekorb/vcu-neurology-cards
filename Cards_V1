@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty & Staff Spotlight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0;
+        }
+        .card-container {
+            width: 380px;
+            height: 520px;
+            perspective: 1000px;
+            flex-shrink: 0;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+        }
+        .card-container:hover .card {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border: 1px solid #cbd5e1;
+        }
+        .card-front {
+            background-color: #f8fafc;
+        }
+        .card-back {
+            background-color: #f1f5f9;
+            transform: rotateY(180deg);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .detail-group {
+            margin-bottom: 1rem;
+        }
+        .detail-label {
+            font-weight: 700;
+            color: #475569;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+        .detail-value {
+            font-size: 0.9rem;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        .quote {
+            font-size: 0.9rem;
+            background-color: #E0E7FF;
+            border-left: 4px solid #6366F1;
+            color: #4338CA;
+            padding: 0.75rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div id="card-gallery" class="flex flex-wrap gap-8 justify-center">
+        <!-- Cards will be inserted here by the script -->
+    </div>
+
+    <script>
+        // STEP 1: Paste your JSON data here.
+        const facultyData = [
+{
+   "nameAndTitle": "Dr. Kelly Graham Gwathmey, Associate Professor of Neurology, Neuromuscular Division Chief",
+   "role": ["Attending","Program Leader (Director, AD)","Research Mentor or Sponsor","Mentor","Clinical Competency Committee (CCC)"],
+   "specialty": "Neuromuscular Disorders",
+   "yearsAtVCU": "6",
+   "training": "Emory, EVMS, UVA, MGH/Brigham",
+   "hometown": "Richmond",
+   "richmondFavorite": "I love Richmond's restaurants, Maymont, Carytown, VMFA",
+   "media": "Just finished the book Prep. I am listening to music by Sombr.",
+   "hobby": "Cooking, pickle ball",
+   "alternateProfession": "Probably own a restaurant",
+   "coffeeOrder": "Oak milk latte with 1 pump of vanilla, hot",
+   "bestPartOfJob": "Working with my incredible, passionate team",
+   "likesAboutResidents": "Getting to watch them grown and become more confident over the years. Watching them become more independent.",
+   "advice": "Try and read an article or book chapter every single week. Prioritize high yield topics.",
+   "ahaMoment": "I saw a patient that I had met in residency who had been given a tentative diagnosis of LGMD. I realized upon my return, that he had late onset Pompe's (which is treatable). I felt like I'd really grown during fellowship and was thrilled to diagnose him with a treatable condition.",
+   "photoUrl": ""
+},
+ {
+   "nameAndTitle": "Dr. Matthew James Barrett, MD, MSc, Professor of Neurology",
+   "role": ["Attending", "Program Leader (Director, AD)","Research Mentor or Sponsor"],
+   "specialty": "Movement Disorders, Cognitive Disorders",
+   "yearsAtVCU": "6",
+   "training": "University of Virginia, Beth Israel Medical Center (NYC)",
+   "hometown": "Midlothian, VA",
+   "richmondFavorite": "VMFA",
+   "media": "James by Percival Everett",
+   "hobby": "Bird watching",
+   "alternateProfession": "Writing & Teaching",
+   "coffeeOrder": "Black coffee, regular then decaf",
+   "bestPartOfJob": "Patient Care",
+   "likesAboutResidents": "Sharing interesting patients and learning from them. ",
+   "advice": "Learn one thing every day. ",
+   "ahaMoment": "Discovering a subspecialty that I still love. ",
+   "photoUrl": "https://vcuhealth-my.sharepoint.com/personal/pearce_korb_vcuhealth_org/Documents/Apps/Microsoft%20Forms/Faculty%20%26%20Staff%20Spotlight/Question/headshot_Matthew%20Barrett.jpg"
+ },
+ {
+   "nameAndTitle": "Karen Sharrock, Associate Administrator",
+   "role": ["Departmental leadership and Finance"],
+   "specialty": "Administration and Finance",
+   "yearsAtVCU": "3",
+   "training": "UPenn, York Hospital, HCA, EIRMC, George Mason University",
+   "hometown": "Mastic Beach, New York",
+   "richmondFavorite": "Pamplin Historical Park",
+   "media": "The Iron Knight, by Julie Kagawa.",
+   "hobby": "I can crochet, and love to bake and decorate cakes. Over 20 years in GME.",
+   "alternateProfession": "Most likely being a math teacher to high school students.",
+   "coffeeOrder": "Chai Latte, or White Mocha",
+   "bestPartOfJob": "Every day is different, so many people to interact with, so many problems to solve!",
+   "likesAboutResidents": "Watching them grow, as this is truly their first real job and seeing how their competence and confidence improves over their time in Residency.",
+   "advice": "Take it day by day, just keep doing the next right thing, don't be afraid to ask lots of questions, trust your instincts.",
+   "ahaMoment": "You can have a much greater impact by delegating, teaching, influencing, and following up, than you can by doing it yourself.",
+   "photoUrl": "https://vcuhealth-my.sharepoint.com/personal/pearce_korb_vcuhealth_org/Documents/Apps/Microsoft%20Forms/Faculty%20%26%20Staff%20Spotlight/Question/kjs_Karen%20Sharrock.jpg"
+ },
+{
+   "nameAndTitle": "Jessica Johns, Assistant Professor of Neurology, Divisions of Vascular and Critical Care",
+   "role": ["Attending","Mentor"],
+   "specialty": "Neurointensivist and stroke neurologist",
+   "yearsAtVCU": "3",
+   "training": "Medical School: Wayne State University, Residency: Wayne State University, Fellowship: University of Virginia",
+   "hometown": "New Baltimore, Michigan ",
+   "richmondFavorite": "Farmer's Market at Bryan Park on Saturday morning, Lebanese food festival, Virginia State parks",
+   "media": "Reading: Insomnia by Stephen King",
+   "hobby": "I crochet and am learning how to sew. I crochet most of the comfort blankets that are given to comfort care patients in the NSICU. I also collect bourbon.",
+   "alternateProfession": "If I wasn't in medicine, I would own a bakery ",
+   "coffeeOrder": "Vanilla Sweet Cream Cold Brew",
+   "bestPartOfJob": "Making a difference in patient's lives.",
+   "likesAboutResidents": "I enjoy being able to watch the residents learn and grow.",
+   "advice": "Never be afraid to ask for help.",
+   "ahaMoment": "Advocating for aggressive management in a traumatic brain injury patient, who is now an advocate for TBI survivors",
+   "photoUrl": ""
+ },
+ {
+   "nameAndTitle": "Dr. Fazila Aseem, Assistant Clinical Professor of Neurology, Neurointensivisit",
+   "role": ["Attending","Selection Committee (Recruitment)","Mentor","Research Mentor or Sponsor"],
+   "specialty": "Neurocritical care, Neuro-recovery, quality improvement ",
+   "yearsAtVCU": "1",
+   "training": "University of North Carolina at Chapel Hill",
+   "hometown": "Originally from Kabul, Afghanistan. Consider Atlanta, GA hometown ",
+   "richmondFavorite": "Events and festivals - Greek festival, Indian festival, loads of things to do ",
+   "media": "Amphibians and Reptiles with my toddler",
+   "hobby": "Sowing, fashion designer",
+   "alternateProfession": "Mathematics professor",
+   "coffeeOrder": "Black coffee",
+   "bestPartOfJob": "Saving lives and supporting families and trainees during neurological and systemic emergencies.",
+   "likesAboutResidents": "Enthusiasm to learn and see the growth overtime",
+   "advice": "Be a proactive learner, be positive. Despite the ups and downs, enjoy and take full advantage of the training ride. ",
+   "ahaMoment": "Diagnosing buccal myasthenia gravis in the ED with Mestinon challenge at UNC when Duke has missed it",
+   "photoUrl": "https://vcuhealth-my.sharepoint.com/personal/pearce_korb_vcuhealth_org/Documents/Apps/Microsoft%20Forms/Faculty%20%26%20Staff%20Spotlight/Question/2025-04-12-15-04-50-079_Fazila%20Aseem.jpg"
+ },
+ {
+   "nameAndTitle": "Dr. Har Doshi, MD, Assistant Professor of Neurology, CDI Medical Director, Inpatient & Consult services VCU Health",
+   "role": ["Attending"],
+   "specialty": "Epilepsy",
+   "yearsAtVCU": "1.5",
+   "training": "Detroit Medical Center, Wayne-State University",
+   "hometown": "Ahmedabad, India, Denver, CO in US",
+   "richmondFavorite": "Sugar & Twine Coffee, Lolitas, access to beach and mountains",
+   "media": "READING: Foundation & Earth (fiction) WATCHING: Severance on Apple TV WATCHING: Fubar on Netflix",
+   "hobby": "What is square of 98? I think it is 9604 :-) (aka Math), Astrophotography, Piano?, Does cooking count?",
+   "alternateProfession": "Probably working at NASA, Starting animal shelter",
+   "coffeeOrder": "Latte, preferably hot, Black tea",
+   "bestPartOfJob": "Surgical epilepsy, My colleagues",
+   "likesAboutResidents": "I learn from them a lot. Plus, they know their way around the hospital",
+   "advice": "Know and accept what you don't know. Good doctors are those who recognize their limitations more than their strengths.",
+   "ahaMoment": "Oh wow! Billing is really complicated :-( ",
+   "photoUrl": "https://vcuhealth-my.sharepoint.com/personal/pearce_korb_vcuhealth_org/Documents/Apps/Microsoft%20Forms/Faculty%20%26%20Staff%20Spotlight/Question/IMG_4932_Hardik%20Doshi.jpeg"
+ }
+
+];
+
+        // STEP 2: The script below will automatically create the cards.
+        const cardGallery = document.getElementById('card-gallery');
+
+        facultyData.forEach(person => {
+            const name = person.nameAndTitle.split(',')[0] || person.nameAndTitle;
+            const title = person.nameAndTitle.split(',').slice(1).join(',').trim() || '';
+            const firstSpecialty = (person.specialty || '').split(',')[0];
+            
+            const detailItem = (label, value) => {
+                if (!value) return '';
+                return `
+                    <div class="detail-group">
+                        <h3 class="detail-label">${label}</h3>
+                        <p class="detail-value">${value}</p>
+                    </div>
+                `;
+            };
+
+            const cardHtml = `
+                <div class="card-container">
+                    <div class="card">
+                        <!-- Front of the Card -->
+                        <div class="card-face card-front flex flex-col">
+                            <div class="h-3/5 bg-gray-300 rounded-t-lg flex items-center justify-center">
+                                <img src="${person.photoUrl}" alt="${name}" class="h-full w-full object-cover rounded-t-lg" onerror="this.onerror=null;this.src='https://placehold.co/380x312/e2e8f0/475569?text=Photo';">
+                            </div>
+                            <div class="h-2/5 p-4 flex flex-col justify-between">
+                                <div class="text-center">
+                                    <h1 class="text-2xl font-bold text-gray-800 truncate" title="${name}">${name}</h1>
+                                    <p class="text-md text-indigo-600 font-semibold truncate" title="${title}">${title}</p>
+                                </div>
+                                <div class="flex justify-around border-t border-gray-200 pt-3 text-center">
+                                    <div>
+                                        <p class="font-bold text-gray-500 text-xs uppercase tracking-wider">Years at VCU</p>
+                                        <p class="font-semibold text-xl text-gray-700">${person.yearsAtVCU || 'N/A'}</p>
+                                    </div>
+                                    <div class="border-l border-gray-200"></div>
+                                    <div class="w-1/2">
+                                        <p class="font-bold text-gray-500 text-xs uppercase tracking-wider">Specialty</p>
+                                        <p class="font-semibold text-lg text-gray-700 truncate" title="${person.specialty || ''}">${firstSpecialty || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
+                                <span class="text-3xl">🧠</span>
+                            </div>
+                        </div>
+
+                        <!-- Back of the Card -->
+                        <div class="card-face card-back">
+                            <div class="text-center mb-4 border-b pb-3">
+                                <h2 class="text-xl font-bold text-gray-800">${name}</h2>
+                                <p class="text-sm text-indigo-600 font-semibold">${(person.role || []).join(', ')}</p>
+                            </div>
+                            
+                            ${detailItem('Best Part of My Job', person.bestPartOfJob)}
+                            ${detailItem('What I Enjoy About Working with Residents', person.likesAboutResidents)}
+                            
+                            <div class="detail-group">
+                                <h3 class="detail-label">Advice for New Residents</h3>
+                                <p class="quote">"${person.advice || ''}"</p>
+                            </div>
+
+                            ${detailItem('Aha! Moment', person.ahaMoment)}
+                            ${detailItem('If I Weren\'t Doing This', person.alternateProfession)}
+                            ${detailItem('Surprising Hobby', person.hobby)}
+                            ${detailItem('Currently Reading/Watching/Listening To', person.media)}
+                            ${detailItem('Favorite Thing About Richmond', person.richmondFavorite)}
+                            ${detailItem('Go-to Coffee/Tea Order', person.coffeeOrder)}
+                            ${detailItem('Hometown', person.hometown)}
+                            ${detailItem('Training', person.training)}
+                        </div>
+                    </div>
+                </div>
+            `;
+            cardGallery.innerHTML += cardHtml;
+        });
+    </script>
+</body>
+</html>
