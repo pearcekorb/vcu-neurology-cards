@@ -14,10 +14,12 @@
             background-color: #e2e8f0;
         }
         .card-container {
-            width: 380px;
+           width: 100%;
+            max-width: 380px;
             height: 520px;
             perspective: 1000px;
             flex-shrink: 0;
+            cursor: pointer;
         }
         .card {
             width: 100%;
@@ -27,7 +29,7 @@
             transition: transform 0.8s;
             cursor: pointer;
         }
-        .card-container:hover .card {
+        .card.is-flipped {
             transform: rotateY(180deg);
         }
         .card-face {
@@ -446,6 +448,14 @@
             `;
             cardGallery.innerHTML += cardHtml;
         });
+        // Add event listener to handle the flip on click/tap
+cardGallery.addEventListener('click', function(event) {
+    const cardContainer = event.target.closest('.card-container');
+    if (cardContainer) {
+        const card = cardContainer.querySelector('.card');
+        card.classList.toggle('is-flipped');
+    }
+});
     </script>
 </body>
 </html>
